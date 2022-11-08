@@ -1,8 +1,8 @@
 // =================================================================
 //
 // File: list.h
-// Author:
-// Date:
+// Author: Manuel Villalpando Linares
+// Date: 30/09/2022
 //
 // =================================================================
 #ifndef DOUBLELINKEDLIST_H
@@ -232,9 +232,16 @@ T DoubleLinkedList<T>::before(T val) const {
 // @throws NoSuchelement, if val is not on the list.
 // =================================================================
 template <class T>
-T DoubleLinkedList<T>::after(T val) const {
-	
-	return val;
+T DoubleLinkedList<T>::before(T val) const {
+	Node<T>* e;
+	e = head;
+    while(e != NULL){
+        if(e -> value == val && e -> previous != NULL){
+			return e -> previous-> value;
+		}
+        e = e->next;
+    }
+    throw NoSuchElement();
 }
 
 // =================================================================
@@ -294,7 +301,27 @@ void DoubleLinkedList<T>::push_back(T val) {
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
-	// TO DO
+	Node<T> *p,*q;
+	p = head;
+	while(p != NULL){
+		if(p->value == lookingFor){
+			q = new Node<T>(newVal);
+			q->next = p;
+			q->previous = p->previous;
+			if(p->previous == NULL){
+				head = q;
+			}
+			else{
+				p->previous->next = q;
+			}
+			p->previous = q;
+			size++;
+			return;
+		}
+		p = p->next;
+	}
+	throw NoSuchElement();
+}
 }
 
 // =================================================================
@@ -304,7 +331,25 @@ void DoubleLinkedList<T>::insert_before(T lookingFor, T newVal) {
 // =================================================================
 template <class T>
 void DoubleLinkedList<T>::insert_after(T lookingFor, T newVal) {
-	// TO DO
+	Node<T> *p,*q;
+	p = head;
+	while(p != NULL){
+		if(p->value == lookingFor){
+			q = new Node<T>(newVal);
+			q->previous = p;
+			q->next = p->next;
+			if (p->next != NULL){
+				p->next->previous = q;
+			}
+			p->next = q;
+			size++;
+			return;
+		}
+		p = p->next;
+	}
+	throw NoSuchElement();
+	
+}
 }
 
 // =================================================================
